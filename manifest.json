@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Seller Center - Fulfillment Mode",
+  "version": "1.1.0",
+  "description": "Keeps employees on order fulfillment: hides sales numbers on the Seller Center homepage and blocks Payments and Analytics.",
+  "content_scripts": [
+    {
+      "matches": ["https://seller.walmart.com/*"],
+      "js": ["config.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

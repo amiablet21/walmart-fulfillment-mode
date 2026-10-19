@@ -1,0 +1,52 @@
+SELLER CENTER - FULFILLMENT MODE  (version 1.1.0)
+=================================================
+What employees see with this installed:
+  - Homepage: still there, but the GMV sales graph and the Current Balance
+    tile are gone, and every dollar amount shows as $•••
+    (e.g. "Ship 140 orders worth $••• to meet estimated delivery dates").
+    Today's Orders, Unshipped Orders and Account Rating still show.
+  - Sidebar: Payments and Analytics are removed.
+  - Opening a Payments or Analytics page by address or bookmark sends them
+    to Manage Orders instead.
+
+Install it ONLY on employee computers or employee Chrome profiles. Leave it
+off your own so you still see everything.
+
+
+INSTALL (about 2 minutes per computer)
+-------------------------------------
+1. Copy this whole "walmart-fulfillment-mode" folder to the employee's PC,
+   for example to C:\walmart-fulfillment-mode. Keep it there; don't delete it.
+2. In Chrome, go to:  chrome://extensions
+3. Turn on "Developer mode" (top-right switch).
+4. Click "Load unpacked" and pick the folder.
+5. Turn "Developer mode" back off.
+
+Microsoft Edge works the same way, using  edge://extensions
+
+
+UPDATING TO A NEW VERSION
+-------------------------
+1. Replace the files in the folder you loaded from (step 1 above).
+2. In chrome://extensions, click the reload arrow on the extension's card.
+3. Check the card shows the new version number (1.1.0).
+4. Refresh any open Seller Center tabs.
+
+
+WHAT CAN AND CAN'T BREAK
+------------------------
+- It works from page addresses and on-screen words ("GMV", "$"), not from
+  Walmart's page layout, so most Walmart redesigns don't affect it.
+- If Walmart does change something, the worst case is a number shows
+  again. Orders, shipping and the rest of Seller Center are never affected.
+- Chrome updates don't affect it. It uses Chrome's current extension format
+  (Manifest V3) and needs no special permissions.
+
+
+LIMITS (be aware)
+-----------------
+This is a guardrail, not a lock. An employee who has their own Seller Center
+login could still see the numbers by:
+  - turning the extension off in chrome://extensions,
+  - using a different browser, or
+  - using the Walmart Seller phone app.
