@@ -20,15 +20,28 @@ Install it only on employee computers or Chrome profiles.
 | `content.js` | The extension logic |
 | `manifest.json` | Chrome extension manifest (Manifest V3, no special permissions) |
 | `SETUP.txt` | Step-by-step install and update instructions |
+| `installer/` | Windows installer and Mac disk image build scripts |
 
 ## Install
 
-1. Download this repo (**Code → Download ZIP**) and unzip it somewhere permanent.
-2. Open `chrome://extensions` and turn on **Developer mode**.
+Download the Windows `.exe` or Mac `.dmg` from the
+[latest release](../../releases/latest) and follow its steps. Or by hand:
+
+1. Download the `.zip` from the release and unzip it somewhere permanent.
+2. Open `chrome://extensions` and turn on **Developer mode**. Leave it on.
 3. Click **Load unpacked** and pick the folder.
-4. Turn **Developer mode** back off.
 
 See [SETUP.txt](SETUP.txt) for details, updating, and limits.
+
+## Releasing a new version
+
+1. Bump `version` in `manifest.json` and commit.
+2. `git tag v1.2.3 && git push origin main v1.2.3`
+
+GitHub Actions ([release.yml](.github/workflows/release.yml)) then builds the
+Windows installer ([Inno Setup script](installer/windows/installer.iss)), the
+Mac disk image ([build script](installer/macos/build-dmg.sh)) and the zip, and
+publishes them as a release.
 
 ## Design
 

@@ -15,12 +15,15 @@ off your own so you still see everything.
 
 INSTALL (about 2 minutes per computer)
 -------------------------------------
+Easiest: download the Windows installer (.exe) or Mac disk image (.dmg) from
+the GitHub Releases page and follow its steps. To install by hand instead:
+
 1. Copy this whole "walmart-fulfillment-mode" folder to the employee's PC,
    for example to C:\walmart-fulfillment-mode. Keep it there; don't delete it.
 2. In Chrome, go to:  chrome://extensions
-3. Turn on "Developer mode" (top-right switch).
+3. Turn on "Developer mode" (top-right switch). Leave it on: Chrome may
+   switch off hand-installed extensions when Developer mode is off.
 4. Click "Load unpacked" and pick the folder.
-5. Turn "Developer mode" back off.
 
 Microsoft Edge works the same way, using  edge://extensions
 

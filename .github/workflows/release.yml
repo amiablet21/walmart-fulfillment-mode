@@ -1,0 +1,72 @@
+# Builds the Windows .exe and macOS .dmg and publishes a GitHub release.
+# To release: bump "version" in manifest.json, commit, then
+#   git tag v1.2.3 && git push origin v1.2.3
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup -y --no-progress
+          }
+          & $iscc "/DAppVersion=$version" installer\windows\installer.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: dist/*.exe
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build disk image
+        run: bash installer/macos/build-dmg.sh "${GITHUB_REF_NAME#v}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/*.dmg
+
+  release:
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check tag matches manifest version
+        run: |
+          manifest_version=$(jq -r .version manifest.json)
+          if [ "v$manifest_version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match manifest.json version $manifest_version"
+            exit 1
+          fi
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Zip the extension
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          mkdir -p pkg/walmart-fulfillment-mode
+          cp manifest.json config.js content.js SETUP.txt pkg/walmart-fulfillment-mode/
+          (cd pkg && zip -r "../dist/walmart-fulfillment-mode-$version.zip" walmart-fulfillment-mode)
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "Seller Center Fulfillment Mode $GITHUB_REF_NAME" \
+            --notes-file installer/release-notes.md
